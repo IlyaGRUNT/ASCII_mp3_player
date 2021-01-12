@@ -38,104 +38,177 @@ def anim(screen):
     # 0-black 1-red 2-green 3-yellow 4-blue 5-purple 6-light_blue 7-white
     global song_list
     i = 0
-    screen.print_at('■̅̅̅̅̅̅̅̅̅̅̅̅■',
-                    2, 0, 7)
-    screen.print_at('|',
-                    1, 1, 0, 1)
-    screen.print_at('|############|',
+    # cassette
+    screen.print_at('■̅̅̅̅̅̅̅̅̅̅̅̅̅■',
                     2, 1, 7)
     screen.print_at('|',
-                    16, 1, 0, 1)
-    screen.print_at('|',
                     1, 2, 0, 1)
-    screen.print_at('|',
+    screen.print_at('|#############|',
                     2, 2, 7)
-    screen.print_at('( )====( )',
-                    4, 2, 7, 1)
     screen.print_at('|',
-                    15, 2, 7)
+                    17, 2, 0, 1)
     screen.print_at('|',
-                    16, 2, 0, 1)
+                    1, 3, 0, 1)
     screen.print_at('|',
-                   1, 3, 0, 1)
-    screen.print_at('|############|',
                     2, 3, 7)
+    screen.print_at('(/)=====(/)',
+                    4, 3, 7, 1)
     screen.print_at('|',
-                    16, 3, 0, 1)
-    screen.print_at('■____________■',
-                  2, 4, 7)
+                    16, 3, 7)
+    screen.print_at('|',
+                    17, 3, 0, 1)
+    screen.print_at('|',
+                   1, 4, 0, 1)
+    screen.print_at('|#############|',
+                    2, 4, 7)
+    screen.print_at('|',
+                    17, 4, 0, 1)
+    screen.print_at('■_____________■',
+                    2, 5, 7)
+    # volume
+    screen.print_at('VOL',
+                    19, 0, 7, 1)
+    screen.print_at('-+-',
+                    19, 1, 0, 1)
+    screen.print_at('-+-',
+                    19, 2, 0, 1)
+    screen.print_at('60%',
+                    19, 3, 2, 1)
+    screen.print_at('-+-',
+                    19, 4, 0, 1)
+    screen.print_at('-+-',
+                    19, 5, 0, 1)
+    screen.print_at('-+-',
+                    19, 6, 0, 1)
     screen.print_at('___________________________________',
-                    1, 5, 2, 1)
+                    1, 7, 2, 1)
+    # song list
     screen.print_at('#',
-                    1, 7, 1)
+                    1, 9, 1)
     screen.print_at('NAME',
-                    4, 7, 1)
+                    4, 9, 1)
     screen.print_at('TIME',
-                    32, 7, 1)
-    for i1 in range(len(song_list)):
-        screen.print_at(' ' + str(i1+1) + '.',
-                        0, 8+i1, 0, 1)
-        if song_list[i1][0][1]:
-            screen.print_at(song_list[i1][0][1],
-                            4, 8+i1, 7, 1)
+                    32, 9, 1)
+    for i1, song in enumerate(song_list, start=1):
+        screen.print_at(' ' + str(i1) + '.',
+                        0, 9+i1, 0, 1)
+        if song[0][1]:
+            screen.print_at(song[0][1],
+                            4, 9+i1, 7, 1)
         else:
-            screen.print_at(song_list[i1][0][0],
-                            4, 8+i1, 7, 1)
-        screen.print_at(f'{song_list[i1][1][0]}:{song_list[i1][1][1]}',
-                        32, 8+i1, 7, 1)
-    volume = 0.50
+            screen.print_at(song[0][0],
+                            4, 9+i1, 7, 1)
+        screen.print_at(f'{song[1][0]}:{song[1][1]}',
+                        32, 9+i1, 7, 1)
+    screen.print_at('-',
+                    5, 6, 1)
+    screen.print_at('#',
+                    9, 6, 1)
+    screen.print_at('+',
+                    13, 6, 1)
+    volume = 0.6
     pygame.mixer.music.set_volume(volume)
     mixer.music.play()
     playing = True
+    p = 0
     while True:
         ev = screen.get_key()
-        if ev in (ord('U'), ord('u')):
+        if ev in (ord('U'), ord('u'), ord('Г'), ord('г')):
             mixer.music.unpause()
             playing = True
-        elif ev in (ord('P'), ord('p')):
+        elif ev in (ord('P'), ord('p'), ord('З'), ord('з')):
             mixer.music.pause()
             playing = False
-        elif ev in (ord('Q'), ord('q')):
+        elif ev in (ord('Q'), ord('q'), ord('Й'), ord('й')):
             return
-        elif ev in (ord('W'), ord('w')):
-            if volume < 100:
+        if ev in (ord('W'), ord('w'), ord('Ц'), ord('ц')):
+            if volume < 1:
+                p = 1
                 screen.print_at('+',
-                                20, 2, 7, 1)
+                                13, 6, 1, 1)
+                screen.print_at('-',
+                                5, 6, 1)
                 volume += 0.01
                 pygame.mixer.music.set_volume(volume)
-        elif ev in (ord('S'), ord('s')):
+        elif ev in (ord('S'), ord('s'), ord('Ы'), ord('ы')):
             if volume > 0:
-                screen.print_at('-',
-                                20, 2, 7, 1)
+                p = 1
                 volume -= 0.01
                 pygame.mixer.music.set_volume(volume)
-        if len(str(round(volume, 2))[2:]) == 1:
-            screen.print_at(str(round(volume, 2)) + '0',
-                            22, 2, 7, 1)
+                screen.print_at('+',
+                                13, 6, 1)
+                screen.print_at('-',
+                                5, 6, 1, 1)
         else:
-            screen.print_at(str(round(volume, 2)),
-                            22, 2, 7, 1)
+            if p >= 2**13:
+                p = 0
+                screen.print_at('-',
+                                5, 6, 1)
+                screen.print_at('+',
+                                13, 6, 1)
+
         i += 1
+        p *= 2
+        # spinning animation
         if i % 40 == 0 and playing:
             screen.print_at('/',
-                            5, 2, 7, 1)
+                            5, 3, 7, 1)
             screen.print_at('/',
-                            12, 2, 7, 1)
+                            13, 3, 7, 1)
         elif i % 40 == 10 and playing:
             screen.print_at('-',
-                            5, 2, 7, 1)
+                            5, 3, 7, 1)
             screen.print_at('-',
-                            12, 2, 7, 1)
+                            13, 3, 7, 1)
         elif i % 40 == 20 and playing:
             screen.print_at('\\',
-                            5, 2, 7, 1)
+                            5, 3, 7, 1)
             screen.print_at('\\',
-                            12, 2, 7, 1)
+                            13, 3, 7, 1)
         elif i % 40 == 30 and playing:
             screen.print_at('|',
-                            5, 2, 7, 1)
+                            5, 3, 7, 1)
             screen.print_at('|',
-                            12, 2, 7, 1)
+                            13, 3, 7, 1)
+        # show volume
+        if volume > 0.9:
+            screen.print_at('100%',
+                            19, 1, 2, 1)
+            screen.print_at('-+-',
+                            19, 2, 0, 1)
+        if 0.9 >= volume > 0.7:
+            screen.print_at('-+- ',
+                            19, 1, 0, 1)
+            screen.print_at('80%',
+                            19, 2, 2, 1)
+            screen.print_at('-+-',
+                            19, 3, 0, 1)
+        if 0.7 >= volume > 0.5:
+            screen.print_at('-+-',
+                            19, 2, 0, 1)
+            screen.print_at('60%',
+                            19, 3, 2, 1)
+            screen.print_at('-+-',
+                            19, 4, 0, 1)
+        if 0.5 >= volume > 0.3:
+            screen.print_at('-+-',
+                            19, 3, 0, 1)
+            screen.print_at('40%',
+                            19, 4, 2, 1)
+            screen.print_at('-+-',
+                            19, 5, 0, 1)
+        if 0.3 >= volume > 0.1:
+            screen.print_at('-+-',
+                            19, 4, 0, 1)
+            screen.print_at('20%',
+                            19, 5, 2, 1)
+            screen.print_at('-+-',
+                            19, 6, 0, 1)
+        if 0.1 >= volume:
+            screen.print_at('-+-',
+                            19, 5, 0, 1)
+            screen.print_at('0%',
+                            19, 6, 2, 1)
         screen.refresh()
         time.sleep(0.04)
 
