@@ -83,6 +83,8 @@ def anim(screen):
                             4, 8+i1, 7, 1)
         screen.print_at(f'{song_list[i1][1][0]}:{song_list[i1][1][1]}',
                         32, 8+i1, 7, 1)
+    volume = 0.50
+    pygame.mixer.music.set_volume(volume)
     mixer.music.play()
     playing = True
     while True:
@@ -95,30 +97,47 @@ def anim(screen):
             playing = False
         elif ev in (ord('Q'), ord('q')):
             return
+        elif ev in (ord('W'), ord('w')):
+            if volume < 100:
+                screen.print_at('+',
+                                20, 2, 7, 1)
+                volume += 0.01
+                pygame.mixer.music.set_volume(volume)
+        elif ev in (ord('S'), ord('s')):
+            if volume > 0:
+                screen.print_at('-',
+                                20, 2, 7, 1)
+                volume -= 0.01
+                pygame.mixer.music.set_volume(volume)
+        if len(str(round(volume, 2))[2:]) == 1:
+            screen.print_at(str(round(volume, 2)) + '0',
+                            22, 2, 7, 1)
+        else:
+            screen.print_at(str(round(volume, 2)),
+                            22, 2, 7, 1)
         i += 1
-        if i % 4 == 0 and playing:
+        if i % 40 == 0 and playing:
             screen.print_at('/',
                             5, 2, 7, 1)
             screen.print_at('/',
                             12, 2, 7, 1)
-        elif i % 4 == 1 and playing:
+        elif i % 40 == 10 and playing:
             screen.print_at('-',
                             5, 2, 7, 1)
             screen.print_at('-',
                             12, 2, 7, 1)
-        elif i % 4 == 2 and playing:
+        elif i % 40 == 20 and playing:
             screen.print_at('\\',
                             5, 2, 7, 1)
             screen.print_at('\\',
                             12, 2, 7, 1)
-        elif i % 4 == 3 and playing:
+        elif i % 40 == 30 and playing:
             screen.print_at('|',
                             5, 2, 7, 1)
             screen.print_at('|',
                             12, 2, 7, 1)
         screen.refresh()
-        time.sleep(0.4)
-
+        time.sleep(0.04)
 
 os.system('mode con: cols=37 lines=15')
 Screen.wrapper(anim)
