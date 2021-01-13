@@ -268,7 +268,8 @@ def anim(screen):
         elif ev in (ord('Q'), ord('q'), ord('Й'), ord('й')):
             if q > 0:
                 i2 = 0
-                q -= 1
+                if q != len(queue):
+                    q -= 1
                 mixer.music.stop()
                 pygame.event.clear()
                 mixer.music.load(queue[q])
