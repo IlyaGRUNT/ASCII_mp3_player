@@ -232,11 +232,12 @@ def anim(screen):
         if event:
             event = event[0]
             if event.type == MUSIC_END:
-                i2 = 0
-                q += 1
-                pygame.event.clear()
-                mixer.music.load(queue[q])
-                mixer.music.play()
+                if q != len(queue)-1:
+                    i2 = 0
+                    q += 1
+                    pygame.event.clear()
+                    mixer.music.load(queue[q])
+                    mixer.music.play()
         ev = screen.get_key()
         if ev in (ord('U'), ord('u'), ord('Г'), ord('г')):
             mixer.music.unpause()
