@@ -52,7 +52,11 @@ for n, mpt in enumerate(mpts):
     m_duration = duration // 60
     s_duration = duration % 60
     song = eyed3.load(mpt)
-    name = song.tag.title
+    name = None
+    try:
+        name = song.tag.title
+    except:
+        pass
     song_list.append([[mpt[:-4], name], [m_duration, s_duration]])
     if n == 0:
         mixer.music.load(mpt)
